@@ -6,25 +6,14 @@ const uglifyJsPlugin = webpack.optimize.UglifyJsPlugin;
 
 module.exports = {
   devtool: 'cheap-source-map',
-  devServer: {
-    disableHostCheck: true,
-    historyApiFallback: true,
-    watchOptions: { aggregateTimeout: 300, poll: 1000 },
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers':
-        'X-Requested-With, content-type, Authorization'
-    }
-  },
   entry: [
     path.resolve(__dirname, 'app/main.js'),
     path.resolve(__dirname, 'app/stylesheets/main.scss')
   ],
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'build'),
     publicPath: '/',
-    filename: './dist.js'
+    filename: './bundle.js'
   },
   externals: {
     'filesafe-js': 'filesafe-js'
@@ -52,6 +41,7 @@ module.exports = {
         test: /\.js[x]?$/,
         include: [
           path.resolve(__dirname, 'app'),
+          path.resolve(__dirname, 'node_modules/sortablejs/Sortable.min.js'),
           path.resolve(__dirname, 'node_modules/sn-components-api/dist/dist.js')
         ],
         exclude: /node_modules/,
@@ -70,7 +60,7 @@ module.exports = {
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: './dist.css',
+      filename: './styles/style.css',
       disable: false,
       allChunks: true
     }),
